@@ -10,7 +10,6 @@ struct obj_ops
 
 int obj_write(const struct obj_ops ** ops, const char *data, int len)
 {
-   
     return (*ops)->write(ops, data, len);
 }
 
@@ -48,7 +47,7 @@ void obj_impl_init(struct obj_impl *impl)
     impl->ops = &impl_ops;
 }
 
-const struct obj_ops ** obj_get_impl(void)
+const struct obj_ops ** obj_get_impl(struct obj_impl *impl)
 {
     return &impl->ops;
 }
@@ -58,7 +57,7 @@ int main(void)
     struct obj_impl impl;
     obj_impl_init(&impl);
 
-    const struct obj_ops ** ops =  obj_get_impl();
+    const struct obj_ops ** ops =  obj_get_impl(&impl);
 
     const char * data = "Hello World!\r\n";
     obj_write(ops, data, strlen(data));
